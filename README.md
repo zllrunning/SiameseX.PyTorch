@@ -41,7 +41,7 @@ python demo.py --model SiamFC
 ## Training
 
 - download [VID dataset](http://bvisionweb1.cs.unc.edu/ilsvrc2015/download-videos-3j16.php) (I did not use Youtube-bb because of limited resources).
-- run `label_preprocess.py --file --output_file --path` to replace my file path by yours, **these three arguments should be treated carefully **.
+- run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
 - train SiamFCNext22 tracker
 ```
 python train.py --model SiamFCNext22 --gpu 0 --task siamresnext

@@ -1,7 +1,7 @@
 # SiameseX.PyTorch
 A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW. 
 
-**Warning:  It is still in development.**
+**Warning:  It is still in development, some files are just for the integrity of the project.**
 
 ## Dependencies
 - python2.7
@@ -60,10 +60,10 @@ python train.py --gpu 0 --config configs/SiamRPN.py
 ## TODO
 We have accumulated the following to-do list, which we hope to complete in the near future
 - Still to come:
-  * [ ] Add testing code on common datasets
-  * [×] Add SiamRPN(AlexNet as backbone)
-  * [×] Add SiamRPN(VGG as backbone)
-  * [×] Add SiamRPN(ResNet, ResNext, Inception as backbone)
+  - [ ] Add testing code on common datasets
+  - [x] Add SiamRPN(AlexNet as backbone)
+  - [x] Add SiamRPN(VGG as backbone)
+  - [x] Add SiamRPN(ResNet, ResNext, Inception as backbone)
 
 ### Citation 
 

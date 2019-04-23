@@ -14,6 +14,7 @@ class AlexNet(nn.Module):
     """
     def __init__(self):
         super(AlexNet, self).__init__()
+        self.feature_channel = 256
         self.feature = nn.Sequential(
             # conv1
             nn.Conv2d(3, 96, 11, 2),
@@ -47,6 +48,7 @@ class Vgg(nn.Module):
     """
     def __init__(self):
         super(Vgg, self).__init__()
+        self.feature_channel = 256
         self.features = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, stride=1),
             nn.ReLU(inplace=True),

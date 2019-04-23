@@ -113,3 +113,70 @@ def load_data(pair_infos, discrim, train = True):
     
     return z, x, gt, gt_box
 
+
+def load_data_rpn(pair_infos, discrim, train=True):
+    anchors = generate_anchor(8, [8, ], [0.33, 0.5, 1, 2, 3], 17)
+
+    gt = np.zeros((1, 17, 17))
+    gt[:, :, :] = -1
+    gt[0, 8, 8] = 1.
+
+    img_path1 = pair_infos[0][0]
+    img_path2 = pair_infos[1][0]
+
+    bs1 = pair_infos[0][1]  # xmin xmax ymin ymax
+    bs2 = pair_infos[1][1]
+
+    gt1 = Rectangle(bs1[0], bs1[2], bs1[1] - bs1[0], bs1[3] - bs1[2])
+    gt2 = Rectangle(bs2[0], bs2[2], bs2[1] - bs2[0], bs2[3] - bs2[2])
+
+    gt1 = convert_bbox_format(gt1, to='center-based')
+    gt2 = convert_bbox_format(gt2, to='center-based')
+
+    img1 = Image.open(img_path1).convert('RGB')
+    img2 = Image.open(img_path2).convert('RGB')
+
+    zbox1 = get_zbox(gt1, 0.25)
+    zbox2 = get_zbox(gt2, 0.25)
+
+    scales_w = 1.04 ** (random.random() * 6 - 3)
+    scales_h = 1.04 ** (random.random() * 6 - 3)
+
+    zbox2_scaled = Rectangle(zbox2.x, zbox2.y, zbox2.width * scales_w, zbox2.height * scales_h)
+
+    dx = 0
+
+    dy = 0
+
+    xbox2 = get_xbox(zbox2_scaled, dx, dy)  # we assume second is the search region
+
+    z = gen_xz(img1, zbox1, to='z')
+    x = gen_xz(img2, xbox2, to='x')
+
+    info = [dx, dy, gt2.width / scales_w / zbox2.width, gt2.height / scales_h / zbox2.height]
+
+    gt_box = np.array([-info[0] * 64, -info[1] * 64, info[2] * 128, info[3] * 128])
+
+    anchor_xctr = anchors[:, :1]
+    anchor_yctr = anchors[:, 1:2]
+    anchor_w = anchors[:, 2:3]
+    anchor_h = anchors[:, 3:]
+    gt_cx, gt_cy, gt_w, gt_h = gt_box
+
+    target_x = (gt_cx - anchor_xctr) / anchor_w
+    target_y = (gt_cy - anchor_yctr) / anchor_h
+    target_w = np.log(gt_w / anchor_w)
+    target_h = np.log(gt_h / anchor_h)
+    regression_target = np.hstack((target_x, target_y, target_w, target_h))
+
+    iou = compute_iou(anchors, gt_box).flatten()
+    # print(np.max(iou))
+
+    pos_index = np.where(iou > 0.4)[0]
+    neg_index = np.where(iou < 0.3)[0]
+
+    label = np.ones_like(iou) * -1
+    label[pos_index] = 1
+    label[neg_index] = 0
+
+    return z, x, gt_box, regression_target, label

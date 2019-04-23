@@ -24,13 +24,15 @@ Rectangle = collections.namedtuple('Rectangle', ['x', 'y', 'width', 'height'])
 Point = collections.namedtuple('Point', ['x', 'y'])
 Polygon = collections.namedtuple('Polygon', ['points'])
 
+
 def parse_region(string):
     tokens = map(float, string.split(','))
     if len(tokens) == 4:
         return Rectangle(tokens[0], tokens[1], tokens[2], tokens[3])
     elif len(tokens) % 2 == 0 and len(tokens) > 4:
-        return Polygon([Point(tokens[i],tokens[i+1]) for i in xrange(0,len(tokens),2)])
+        return Polygon([Point(tokens[i], tokens[i+1]) for i in xrange(0, len(tokens), 2)])
     return None
+
 
 def encode_region(region):
     if isinstance(region, Polygon):
@@ -39,6 +41,7 @@ def encode_region(region):
         return '{},{},{},{}'.format(region.x, region.y, region.width, region.height)
     else:
         return ""
+
 
 def convert_region(region, to):
 

@@ -9,10 +9,10 @@ import torchvision.transforms.functional as F
 
 
 class listDataset(Dataset):
-    def __init__(self, ilsvrc, youtube, data_len=6000, shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4, coco=0):
+    def __init__(self, ilsvrc, youtube, data_type='RPN', shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4, coco=0):
         
         self.coco = coco
-        
+        self.data_type = data_type
         self.nSamples = None
         self.transform = transform
         self.train = train
@@ -59,15 +59,30 @@ class listDataset(Dataset):
         assert index <= len(self), 'index range error' 
         
         pair_infos = self.lines[index]
-        
-        z, x, template, gt_box = load_data(pair_infos, self.coco)
 
-        if self.transform is not None:
-            z = self.transform(z)
-            x = self.transform(x)
-            
-        template = torch.from_numpy(template)   
-        gt_box = torch.from_numpy(gt_box)
+        if self.data_type == 'NORPN':
         
-        return z, x, template, gt_box
+            z, x, template, gt_box = load_data(pair_infos, self.coco)
+
+            if self.transform is not None:
+                z = self.transform(z)
+                x = self.transform(x)
+
+            template = torch.from_numpy(template)
+            gt_box = torch.from_numpy(gt_box)
+
+            return z, x, template, gt_box
+
+        elif self.data_type == 'RPN':
+
+            z, x, gt_box, regression_target, label = load_data_rpn(pair_infos, self.coco)
+
+            if self.transform is not None:
+                z = self.transform(z)
+                x = self.transform(x)
+
+            regression_target = torch.from_numpy(regression_target)
+            label = torch.from_numpy(label)
+
+            return z, x, regression_target, label
 

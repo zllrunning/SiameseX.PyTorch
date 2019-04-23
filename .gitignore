@@ -106,4 +106,6 @@ venv.bak/
 # files
 data/girl/*
 data/*.txt
+cp/temp/
+just_for_test.py
 

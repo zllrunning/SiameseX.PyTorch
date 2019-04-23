@@ -55,7 +55,7 @@ class SiamVGGTracker(object):
         elif tracker_name == 'SiamVGG':
             pretrained = None
         elif tracker_name == 'SiamFCRes22':
-            pretrained = None
+            pretrained = 'cp/siamrescheckpoint.pth.tar'
         elif tracker_name == 'SiamFCIncep22':
             pretrained = None
         elif tracker_name == 'SiamFCNext22':

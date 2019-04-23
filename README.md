@@ -8,12 +8,18 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 - pytorch == 0.4.0
 - opencv
 
-## Models
+## Currently supported models
 - [SiamFC](https://arxiv.org/abs/1606.09549)
 - [SiamVGG](https://arxiv.org/abs/1902.02804)
 - [SiamFCRes22](https://arxiv.org/abs/1901.01660)
 - [SiamFCIncep22](https://arxiv.org/abs/1901.01660)
 - [SiamFCNext22](https://arxiv.org/abs/1901.01660)
+- [SiamRPN](http://openaccess.thecvf.com/content_cvpr_2018/papers/Li_High_Performance_Visual_CVPR_2018_paper.pdf)
+- [SiamRPNVGG](https://github.com/leeyeehoo/SiamRPN-VGG)
+- [SiamRPNRes22](https://arxiv.org/abs/1901.01660)
+- [SiamRPNIncep22](https://arxiv.org/abs/1901.01660)
+- [SiamRPNResNeXt22](https://arxiv.org/abs/1901.01660)
+
 
 ## Backbones
 - AlexNet
@@ -44,20 +50,20 @@ python demo.py --model SiamFC
 - run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
 - train SiamFCNext22 tracker
 ```
-python train.py --model SiamFCNext22 --gpu 0 --task siamresnext
+python train.py --gpu 0 --config configs/SiamFC.py
 ```
-- just replace `--model` argument and you can train other models
+- just replace `--config` argument and you can train other models
 ```
-python train.py --model SiamVGG --gpu 0 --task siamvgg
+python train.py --gpu 0 --config configs/SiamRPN.py
 ```
 
 ## TODO
 We have accumulated the following to-do list, which we hope to complete in the near future
 - Still to come:
   * [ ] Add testing code on common datasets
-  * [ ] Add SiamRPN(AlexNet as backbone)
-  * [ ] Add SiamRPN(VGG as backbone)
-  * [ ] Add SiamRPN(ResNet, ResNext, Inception as backbone)
+  * [×] Add SiamRPN(AlexNet as backbone)
+  * [×] Add SiamRPN(VGG as backbone)
+  * [×] Add SiamRPN(ResNet, ResNext, Inception as backbone)
 
 ### Citation 
 

@@ -7,8 +7,11 @@ import torch.nn as nn
 from torch.autograd import Variable
 from .heads import Corr_Up
 from .backbones import AlexNet, Vgg, ResNet22, Incep22, ResNeXt22, ResNet22W
+from .utils import load_pretrain
 
-__all__ = ['SiamFC_', 'SiamFC', 'SiamVGG', 'SiamFCRes22', 'SiamFCIncep22', 'SiamFCNext22', 'SiamFCRes22W', 'SiamRPN', 'SiamRPNVGG']
+
+__all__ = ['SiamFC_', 'SiamFC', 'SiamVGG', 'SiamFCRes22', 'SiamFCIncep22', 'SiamFCNext22', 'SiamFCRes22W',
+           'SiamRPN', 'SiamRPNVGG', 'SiamRPNRes22', 'SiamRPNIncep22', 'SiamRPNResNeXt22']
 
 
 class SiamFC_(nn.Module):
@@ -191,12 +194,12 @@ class SiamRPN(nn.Module):
     def _initialize_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight.data, mode='fan_out',
-                                     nonlinearity='relu')
-                m.bias.data.fill_(0)
+                nn.init.normal_(m.weight, std=0.01)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
             elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
 
     def xcorr(self, z, x, channels):
         out = []
@@ -235,11 +238,28 @@ class SiamRPNVGG(SiamRPN):
             self.features.state_dict().items()[i][1].data[:] = mod.state_dict().items()[i][1].data[:]
 
 
+class SiamRPNRes22(SiamRPN):
+    def __init__(self):
+        super(SiamRPNRes22, self).__init__()
+        self.features = ResNet22()
+        self.mid()
+        self._initialize_weights()
 
 
+class SiamRPNIncep22(SiamRPN):
+    def __init__(self):
+        super(SiamRPNIncep22, self).__init__()
+        self.features = Incep22()
+        self.mid()
+        self._initialize_weights()
 
 
-
+class SiamRPNResNeXt22(SiamRPN):
+    def __init__(self):
+        super(SiamRPNResNeXt22, self).__init__()
+        self.features = ResNeXt22()
+        self.mid()
+        self._initialize_weights()
 
 
 

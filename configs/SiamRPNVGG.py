@@ -1,4 +1,4 @@
-model = 'SiamRPNResNeXt22'
+model = 'SiamRPNVGG'
 original_lr = 1e-3
 lr = 1e-3
 batch_size = 8

@@ -81,6 +81,15 @@ def main():
         model = SiamRPN()
     elif args.model == 'SiamRPNVGG':
         model = SiamRPNVGG()
+    elif args.model == 'SiamRPNRes22':
+        model = SiamRPNRes22()
+        load_pretrain(model, 'models/pretrained/CIResNet22_PRETRAIN.model')
+    elif args.model == 'SiamRPNIncep22':
+        model = SiamRPNIncep22()
+        load_pretrain(model, 'models/pretrained/CIRIncep22_PRETRAIN.model')
+    elif args.model == 'SiamRPNResNeXt22':
+        model = SiamRPNResNeXt22()
+        load_pretrain(model, 'models/pretrained/CIRNeXt22_PRETRAIN.model')
 
     model = model.cuda()
     model = model.eval()
@@ -119,7 +128,7 @@ def main():
 
         if args.model in ['SiamFC', 'SiamVGG', 'SiamFCRes22', 'SiamFCIncep22', 'SiamFCNext22']:
             train(model, criterion, optimizer, epoch, coco)
-        elif args.model in ['SiamRPN', 'SiamRPNVGG']:
+        elif args.model in ['SiamRPN', 'SiamRPNVGG', 'SiamRPNRes22', 'SiamRPNIncep22', 'SiamRPNResNeXt22']:
             trainRPN(model, optimizer, epoch, coco)
 
         is_best = False

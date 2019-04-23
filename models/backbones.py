@@ -88,7 +88,8 @@ class ResNet22(nn.Module):
     def __init__(self):
         super(ResNet22, self).__init__()
         self.features = ResNet(Bottleneck_CI, [3, 4], [True, False], [False, True])
-        self.feature_size = 512
+        # self.feature_size = 512
+        self.feature_channel = 512
 
     def forward(self, x):
         x = self.features(x)
@@ -99,7 +100,8 @@ class Incep22(nn.Module):
     def __init__(self):
         super(Incep22, self).__init__()
         self.features = Inception(InceptionM, [3, 4])
-        self.feature_size = 640
+        # self.feature_size = 640
+        self.feature_channel = 640
 
     def forward(self, x):
         x = self.features(x)
@@ -110,7 +112,8 @@ class ResNeXt22(nn.Module):
     def __init__(self):
         super(ResNeXt22, self).__init__()
         self.features = ResNeXt(num_blocks=[3, 4], cardinality=32, bottleneck_width=4)
-        self.feature_size = 512
+        # self.feature_size = 512
+        self.feature_channel = 512
 
     def forward(self, x):
         x = self.features(x)
@@ -124,7 +127,8 @@ class ResNet22W(nn.Module):
     def __init__(self):
         super(ResNet22W, self).__init__()
         self.features = ResNet(Bottleneck_BIG_CI, [3, 4], [True, False], [False, True], firstchannels=64, channels=[64, 128])
-        self.feature_size = 512
+        # self.feature_size = 512
+        self.feature_channel = 512
 
     def forward(self, x):
         x = self.features(x)

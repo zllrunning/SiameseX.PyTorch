@@ -48,7 +48,7 @@ python demo.py --model SiamFC
 ## Training
 
 - download [VID dataset](http://bvisionweb1.cs.unc.edu/ilsvrc2015/download-videos-3j16.php) (I did not use Youtube-bb because of limited resources).
-- download label files from (here)[https://drive.google.com/open?id=13aC_2stCEU0VoiIpp6wgudenUSVye74b] and run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
+- download label files from [here](https://drive.google.com/open?id=13aC_2stCEU0VoiIpp6wgudenUSVye74b) and run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
 - train SiamFCNext22 tracker
 ```
 python train.py --gpu 0 --config configs/SiamFC.py

@@ -1,5 +1,5 @@
 # SiameseX.PyTorch
-A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW. 
+A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW, SiamRPN. 
 
 **Warning:  It is still in development, some files are just for the integrity of the project.**
 
@@ -7,6 +7,7 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 - python2.7
 - pytorch == 0.4.0
 - opencv
+- mmcv
 
 ## Currently supported models
 - [SiamFC](https://arxiv.org/abs/1606.09549)
@@ -47,7 +48,7 @@ python demo.py --model SiamFC
 ## Training
 
 - download [VID dataset](http://bvisionweb1.cs.unc.edu/ilsvrc2015/download-videos-3j16.php) (I did not use Youtube-bb because of limited resources).
-- run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
+- download label files from (here)[https://drive.google.com/open?id=13aC_2stCEU0VoiIpp6wgudenUSVye74b] and run `label_preprocess.py --file --output_file --path` to replace my file path by yours,  *these three arguments should be treated carefully*.
 - train SiamFCNext22 tracker
 ```
 python train.py --gpu 0 --config configs/SiamFC.py

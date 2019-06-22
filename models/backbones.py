@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import models
 import torch.nn.functional as F
-from .modules import Bottleneck_CI, Bottleneck_BIG_CI, ResNet, Inception, InceptionM, ResNeXt
+from .modules import Bottleneck_CI, Bottleneck_BIG_CI, ResNet, Inception, InceptionM, ResNeXt, ResNetPP, BasicBlock, Bottleneck
 
 
 eps = 1e-5
@@ -136,6 +136,31 @@ class ResNet22W(nn.Module):
         return x
 
 
+# for SiamRPN++
+def resnet18(**kwargs):
+    """Constructs a ResNet-18 model.
+
+    """
+    model = ResNetPP(BasicBlock, [2, 2, 2, 2], **kwargs)
+    return model
+
+
+# for SiamRPN++
+def resnet34(**kwargs):
+    """Constructs a ResNet-34 model.
+
+    """
+    model = ResNetPP(BasicBlock, [3, 4, 6, 3], **kwargs)
+    return model
+
+
+# for SiamRPN++
+def resnet50(**kwargs):
+    """Constructs a ResNet-50 model.
+
+    """
+    model = ResNetPP(Bottleneck, [3, 4, 6, 3], **kwargs)
+    return model
 
 
 

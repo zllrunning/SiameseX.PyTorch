@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6ca0ef2-f7e2-4d81-857e-b71c8faa37e8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/models/heads.py" afterPath="$PROJECT_DIR$/models/heads.py" />
+      <change beforePath="$PROJECT_DIR$/models/backbones.py" afterPath="$PROJECT_DIR$/models/backbones.py" />
+      <change beforePath="$PROJECT_DIR$/models/modules.py" afterPath="$PROJECT_DIR$/models/modules.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,12 +26,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="backbones.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="backbones.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/backbones.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="113" column="27" lean-forward="false" selection-start-line="113" selection-start-column="27" selection-end-line="113" selection-end-column="27" />
-              <folding />
+            <state relative-caret-position="194">
+              <caret line="139" column="23" lean-forward="true" selection-start-line="139" selection-start-column="23" selection-end-line="139" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -38,8 +41,8 @@
       <file leaf-file-name="modules.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/modules.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7290">
-              <caret line="405" column="27" lean-forward="false" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
+            <state relative-caret-position="-432">
+              <caret line="561" column="0" lean-forward="true" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
               <folding>
                 <element signature="e#324#336#0" expanded="true" />
               </folding>
@@ -59,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="heads.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="heads.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/heads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2754">
-              <caret line="153" column="54" lean-forward="true" selection-start-line="153" selection-start-column="54" selection-end-line="153" selection-end-column="54" />
+            <state relative-caret-position="486">
+              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="46" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -126,6 +129,9 @@
       <find>anchors</find>
       <find>print</find>
       <find>frame</find>
+      <find>BasicBlock</find>
+      <find>Bottleneck</find>
+      <find>ResNet</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -153,8 +159,9 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/train.py" />
         <option value="$PROJECT_DIR$/models/builder.py" />
-        <option value="$PROJECT_DIR$/models/backbones.py" />
         <option value="$PROJECT_DIR$/models/heads.py" />
+        <option value="$PROJECT_DIR$/models/modules.py" />
+        <option value="$PROJECT_DIR$/models/backbones.py" />
       </list>
     </option>
   </component>
@@ -689,34 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/modules.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7290">
-          <caret line="405" column="27" lean-forward="false" selection-start-line="405" selection-start-column="27" selection-end-line="405" selection-end-column="27" />
-          <folding>
-            <element signature="e#324#336#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/backbones.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="113" column="27" lean-forward="false" selection-start-line="113" selection-start-column="27" selection-end-line="113" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -739,8 +718,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/heads.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2754">
-          <caret line="153" column="54" lean-forward="true" selection-start-line="153" selection-start-column="54" selection-end-line="153" selection-end-column="54" />
+        <state relative-caret-position="486">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/modules.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-432">
+          <caret line="561" column="0" lean-forward="true" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
+          <folding>
+            <element signature="e#324#336#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/backbones.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="139" column="23" lean-forward="true" selection-start-line="139" selection-start-column="23" selection-end-line="139" selection-end-column="23" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

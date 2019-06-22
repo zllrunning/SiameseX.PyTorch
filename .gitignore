@@ -108,4 +108,5 @@ data/girl/*
 data/*.txt
 cp/temp/
 just_for_test.py
+cp/*.pth.tar
 

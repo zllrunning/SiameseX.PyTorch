@@ -1,6 +1,5 @@
 import torch
 import torch.nn
-from IPython import embed
 import torch.nn.functional as F
 import random
 import numpy as np
@@ -87,12 +86,13 @@ def rpn_cross_entropy_balance_without_norm(input, target, num_pos=16, num_neg=16
 
 
 def rpn_smoothL1(input, target, label):
-    r'''
+    r"""
     :param input: torch.Size([1, 1125, 4])
     :param target: torch.Size([1, 1125, 4])
             label: (torch.Size([1, 1125]) pos neg or ignore
     :return:
-    '''
+    """
+
     pos_index = np.where(label.cpu() == 1)
     loss = F.smooth_l1_loss(input[pos_index], target[pos_index], size_average=False)
     # loss = torch.div(torch.sum(loss), 64)

@@ -60,6 +60,7 @@ def generate_anchor(total_stride, scales, ratios, score_size):
     ori = - (score_size / 2) * total_stride
     xx, yy = np.meshgrid([ori + total_stride * dx for dx in range(score_size)],
                          [ori + total_stride * dy for dy in range(score_size)])
+    # print(yy)
     xx, yy = np.tile(xx.flatten(), (anchor_num, 1)).flatten(), \
              np.tile(yy.flatten(), (anchor_num, 1)).flatten()
     anchor[:, 0], anchor[:, 1] = xx.astype(np.float32), yy.astype(np.float32)
@@ -180,3 +181,7 @@ def load_data_rpn(pair_infos, discrim, train=True):
     label[neg_index] = 0
 
     return z, x, gt_box, regression_target, label
+
+
+if __name__ == '__main__':
+    anchor = generate_anchor(8, [8, ], [0.33, 0.5, 1, 2, 3], 17)

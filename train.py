@@ -16,11 +16,11 @@ from torch.autograd import Variable
 from torchvision import datasets, transforms
 import torch.nn.functional as F
 from models.loss import *
-from image import load_data, generate_anchor
+from image import load_data, generate_anchor, load_data_rpn
 from models.builder import *
 import dataset
 from mmcv import Config
-from utils import save_checkpoint, is_valid_number
+from utils import save_checkpoint, is_valid_number, bbox_iou
 from models.utils import load_pretrain
 
 
@@ -32,7 +32,7 @@ parser.add_argument('--config', metavar='model', default='configs/SiamRPN.py', t
 parser.add_argument('--pre', '-p', metavar='PRETRAINED', default=None, type=str,
                     help='path to the pretrained model')
 
-parser.add_argument('--gpu', metavar='GPU', type=str,
+parser.add_argument('--gpu', metavar='GPU', default='0', type=str,
                     help='GPU id to use.')
 
 
@@ -53,6 +53,8 @@ def main():
 
     with open('./data/ilsvrc_vid_new.txt', 'r') as outfile:
         args.ilsvrc = json.load(outfile)
+    with open('./data/vot2018_new.txt', 'r') as outfile:
+        args.vot2018 = json.load(outfile)
     if os.path.isfile('youtube_final_new.txt'):
         with open('youtube_final_new.txt', 'r') as outfile:
             args.youtube = json.load(outfile)
@@ -131,7 +133,7 @@ def main():
         elif args.model in ['SiamRPN', 'SiamRPNVGG', 'SiamRPNRes22', 'SiamRPNIncep22', 'SiamRPNResNeXt22']:
             trainRPN(model, optimizer, epoch, coco)
 
-        is_best = False
+        # is_best = False
         
         is_best = prec1 > best_prec1
         

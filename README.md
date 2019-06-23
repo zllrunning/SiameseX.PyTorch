@@ -1,5 +1,5 @@
 # SiameseX.PyTorch
-A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW, SiamRPN, SiamRPN++. 
+A simplified PyTorch implementation of Siamese networks for tracking: **SiamFC**, SiamVGG, SiamDW, **SiamRPN**, **SiamRPN++**. 
 
 **Warning:  It is still in development, some files are just for the integrity of the project.**
 
@@ -10,17 +10,17 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 - mmcv
 
 ## Currently supported models
-- [SiamFC](https://arxiv.org/abs/1606.09549)
+- [**SiamFC**](https://arxiv.org/abs/1606.09549)
   - [SiamVGG](https://arxiv.org/abs/1902.02804)
   - [SiamFCRes22](https://arxiv.org/abs/1901.01660)
   - [SiamFCIncep22](https://arxiv.org/abs/1901.01660)
   - [SiamFCNext22](https://arxiv.org/abs/1901.01660)
-- [SiamRPN](http://openaccess.thecvf.com/content_cvpr_2018/papers/Li_High_Performance_Visual_CVPR_2018_paper.pdf)
+- [**SiamRPN**](http://openaccess.thecvf.com/content_cvpr_2018/papers/Li_High_Performance_Visual_CVPR_2018_paper.pdf)
   - [SiamRPNVGG](https://github.com/leeyeehoo/SiamRPN-VGG)
   - [SiamRPNRes22](https://arxiv.org/abs/1901.01660)
   - [SiamRPNIncep22](https://arxiv.org/abs/1901.01660)
   - [SiamRPNResNeXt22](https://arxiv.org/abs/1901.01660)
-- [SiamRPN++](https://arxiv.org/abs/1812.11703)
+- [**SiamRPN++**](https://arxiv.org/abs/1812.11703)
 
 
 ## Backbones

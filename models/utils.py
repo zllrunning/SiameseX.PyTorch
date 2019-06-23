@@ -41,10 +41,19 @@ def load_pretrain(model, pretrained_path):
         pretrained_dict = remove_prefix(pretrained_dict['state_dict'], 'module.')
     else:
         pretrained_dict = remove_prefix(pretrained_dict, 'module.')
-    check_keys(model, pretrained_dict)
+    try:
+        check_keys(model, pretrained_dict)
+    except:
+        print('[Warning]: using pretrain as features.\
+                Adding "features." as prefix')
+        new_dict = {}
+        for k, v in pretrained_dict.items():
+            k = 'features.' + k
+            new_dict[k] = v
+        pretrained_dict = new_dict
+        check_keys(model, pretrained_dict)
     model.load_state_dict(pretrained_dict, strict=False)
     return model
-
 
 
 

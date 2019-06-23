@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from collections import OrderedDict
+import math
 
 eps = 1e-5
 
@@ -564,7 +565,7 @@ class Bottleneck(nn.Module):
 class ResNetPP(nn.Module):
     def __init__(self, block, layers, used_layers):
         self.inplanes = 64
-        super(ResNet, self).__init__()
+        super(ResNetPP, self).__init__()
         self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=0,  # 3
                                bias=False)
         self.bn1 = nn.BatchNorm2d(64)
@@ -641,12 +642,8 @@ class ResNetPP(nn.Module):
 
         p1 = self.layer1(x)
         p2 = self.layer2(p1)
-        print(p2.size())
         p3 = self.layer3(p2)
-        print(p2.size())
-
         p4 = self.layer4(p3)
-        print(p2.size())
 
         out = [x_, p1, p2, p3, p4]
         out = [out[i] for i in self.used_layers]

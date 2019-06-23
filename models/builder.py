@@ -5,13 +5,14 @@ import torch.nn.functional as F
 import torch.nn.init as init
 import torch.nn as nn
 from torch.autograd import Variable
-from .heads import Corr_Up
-from .backbones import AlexNet, Vgg, ResNet22, Incep22, ResNeXt22, ResNet22W
+from .heads import Corr_Up, MultiRPN, DepthwiseRPN
+from .backbones import AlexNet, Vgg, ResNet22, Incep22, ResNeXt22, ResNet22W, resnet50, resnet34, resnet18
+from neck import AdjustLayer, AdjustAllLayer
 from .utils import load_pretrain
 
 
 __all__ = ['SiamFC_', 'SiamFC', 'SiamVGG', 'SiamFCRes22', 'SiamFCIncep22', 'SiamFCNext22', 'SiamFCRes22W',
-           'SiamRPN', 'SiamRPNVGG', 'SiamRPNRes22', 'SiamRPNIncep22', 'SiamRPNResNeXt22']
+           'SiamRPN', 'SiamRPNVGG', 'SiamRPNRes22', 'SiamRPNIncep22', 'SiamRPNResNeXt22', 'SiamRPNPP']
 
 
 class SiamFC_(nn.Module):
@@ -262,6 +263,50 @@ class SiamRPNResNeXt22(SiamRPN):
         self._initialize_weights()
 
 
+class SiamRPNPP(nn.Module):
+    def __init__(self):
+        super(SiamRPNPP, self).__init__()
+        # self.width = int(256)
+        # self.height = int(256)
+        # self.header = torch.IntTensor([0, 0, 0, 0])
+        # self.seen = 0
+        self.features = resnet50(**{'used_layers': [2, 3, 4]})
+
+        self.neck = AdjustAllLayer(**{'in_channels': [512, 1024, 2048], 'out_channels': [256, 256, 256]})
+
+        self.head = MultiRPN(**{'anchor_num': 5, 'in_channels': [256, 256, 256], 'weighted': True})
+
+    def template(self, z):
+        zf = self.features(z)
+        zf = self.neck(zf)
+        self.zf = zf
+
+    def track(self, x):
+        xf = self.features(x)
+        xf = self.neck(xf)
+        cls, loc = self.head(self.zf, xf)
+        return {
+                'cls': cls,
+                'loc': loc,
+               }
+
+    def log_softmax(self, cls):
+        b, a2, h, w = cls.size()
+        cls = cls.view(b, 2, a2//2, h, w)
+        cls = cls.permute(0, 2, 3, 4, 1).contiguous()
+        cls = F.log_softmax(cls, dim=4)
+        return cls
+
+    def forward(self, template, detection):
+        zf = self.features(template)
+        xf = self.features(detection)
+
+        zf = self.neck(zf)
+        xf = self.neck(xf)
+
+        cls, loc = self.head(zf, xf)
+
+        return cls, loc
 
 
 

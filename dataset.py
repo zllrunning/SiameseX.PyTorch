@@ -9,7 +9,7 @@ import torchvision.transforms.functional as F
 
 
 class listDataset(Dataset):
-    def __init__(self, ilsvrc, youtube, data_type='RPN', shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4, coco=0):
+    def __init__(self, ilsvrc, youtube, data_type='RPN', shape=None, shuffle=True, transform=None,  train=False, seen=0, batch_size=1, num_workers=4, coco=0, rpnpp=False):
         
         self.coco = coco
         self.data_type = data_type
@@ -20,6 +20,7 @@ class listDataset(Dataset):
         self.seen = seen
         self.batch_size = batch_size
         self.num_workers = num_workers
+        self.rpnpp = rpnpp
 
         ilsvrc_sample = []
         youtube_sample = []
@@ -75,7 +76,7 @@ class listDataset(Dataset):
 
         elif self.data_type == 'RPN':
 
-            z, x, gt_box, regression_target, label = load_data_rpn(pair_infos, self.coco)
+            z, x, gt_box, regression_target, label = load_data_rpn(pair_infos, self.coco, rpnpp=self.rpnpp)
 
             if self.transform is not None:
                 z = self.transform(z)

@@ -1,5 +1,5 @@
 # SiameseX.PyTorch
-A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW, SiamRPN. 
+A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, SiamVGG, SiamDW, SiamRPN, SiamRPN++. 
 
 **Warning:  It is still in development, some files are just for the integrity of the project.**
 
@@ -20,6 +20,7 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 - [SiamRPNRes22](https://arxiv.org/abs/1901.01660)
 - [SiamRPNIncep22](https://arxiv.org/abs/1901.01660)
 - [SiamRPNResNeXt22](https://arxiv.org/abs/1901.01660)
+- [SiamRPN++](https://arxiv.org/abs/1812.11703)
 
 
 ## Backbones
@@ -28,6 +29,7 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 - ResNet22
 - Incep22
 - ResNeXt22
+- ResNet50
 
 ## Demo
 - Clone this repo and run
@@ -95,6 +97,7 @@ We have accumulated the following to-do list, which we hope to complete in the n
 - [SiamVGG](https://github.com/leeyeehoo/SiamVGG)
 - [siamfc-pytorch](https://github.com/huanglianghua/siamfc-pytorch)
 - [SiamDW](https://github.com/researchmm/SiamDW)
+- [pysot](https://github.com/STVIR/pysot)
 
 
 

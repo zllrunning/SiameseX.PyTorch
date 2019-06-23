@@ -115,10 +115,13 @@ def load_data(pair_infos, discrim, train = True):
     return z, x, gt, gt_box
 
 
-def load_data_rpn(pair_infos, discrim, train=True):
-    anchors = generate_anchor(8, [8, ], [0.33, 0.5, 1, 2, 3], 17)
-
-    gt = np.zeros((1, 17, 17))
+def load_data_rpn(pair_infos, discrim, train=True, rpnpp=False):
+    if not rpnpp:
+        anchors = generate_anchor(8, [8, ], [0.33, 0.5, 1, 2, 3], 17)
+        gt = np.zeros((1, 17, 17))
+    else:
+        anchors = generate_anchor(8, [8, ], [0.33, 0.5, 1, 2, 3], 25)
+        gt = np.zeros((1, 25, 25))
     gt[:, :, :] = -1
     gt[0, 8, 8] = 1.
 

@@ -11,15 +11,15 @@ A simplified PyTorch implementation of Siamese networks for tracking: SiamFC, Si
 
 ## Currently supported models
 - [SiamFC](https://arxiv.org/abs/1606.09549)
-- [SiamVGG](https://arxiv.org/abs/1902.02804)
-- [SiamFCRes22](https://arxiv.org/abs/1901.01660)
-- [SiamFCIncep22](https://arxiv.org/abs/1901.01660)
-- [SiamFCNext22](https://arxiv.org/abs/1901.01660)
+  -- [SiamVGG](https://arxiv.org/abs/1902.02804)
+  -- [SiamFCRes22](https://arxiv.org/abs/1901.01660)
+  -- [SiamFCIncep22](https://arxiv.org/abs/1901.01660)
+  -- [SiamFCNext22](https://arxiv.org/abs/1901.01660)
 - [SiamRPN](http://openaccess.thecvf.com/content_cvpr_2018/papers/Li_High_Performance_Visual_CVPR_2018_paper.pdf)
-- [SiamRPNVGG](https://github.com/leeyeehoo/SiamRPN-VGG)
-- [SiamRPNRes22](https://arxiv.org/abs/1901.01660)
-- [SiamRPNIncep22](https://arxiv.org/abs/1901.01660)
-- [SiamRPNResNeXt22](https://arxiv.org/abs/1901.01660)
+  -- [SiamRPNVGG](https://github.com/leeyeehoo/SiamRPN-VGG)
+  -- [SiamRPNRes22](https://arxiv.org/abs/1901.01660)
+  -- [SiamRPNIncep22](https://arxiv.org/abs/1901.01660)
+  -- [SiamRPNResNeXt22](https://arxiv.org/abs/1901.01660)
 - [SiamRPN++](https://arxiv.org/abs/1812.11703)
 
 
@@ -91,6 +91,13 @@ We have accumulated the following to-do list, which we hope to complete in the n
     title={Deeper and Wider Siamese Networks for Real-Time Visual Tracking},
     booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
     year = {2019}
+
+@article{li2018siamrpn++,
+  title={SiamRPN++: Evolution of Siamese Visual Tracking with Very Deep Networks},
+  author={Li, Bo and Wu, Wei and Wang, Qiang and Zhang, Fangyi and Xing, Junliang and Yan, Junjie},
+  journal={arXiv preprint arXiv:1812.11703},
+  year={2018}
+}
 }
 ```
 ## References

@@ -1,7 +1,7 @@
-model = 'SiamRPNResNeXt22'
+model = 'SiamRPN'
 original_lr = 1e-3
 lr = 1e-3
-batch_size = 8
+batch_size = 16
 momentum = 0.9
 decay = 5 * 1e-4
 start_epoch = 0

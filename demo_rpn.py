@@ -5,20 +5,20 @@ import glob
 import cv2
 import numpy as np
 
-from demo_rpn_utils.net import SiamRPNPPRes50, SiamRPNResNeXt22
+from demo_rpn_utils.net import *
 from demo_rpn_utils.run_SiamRPN import SiamRPN_init, SiamRPN_track
 from demo_rpn_utils.utils import get_axis_aligned_bbox, cxy_wh_2_rect, load_net
 
 
 parser = argparse.ArgumentParser(description='PyTorch SiameseX demo')
 
-parser.add_argument('--model', metavar='model', default='SiamRPNResNeXt22', type=str,
+parser.add_argument('--model', metavar='model', default='SiamRPNPPRes50', type=str,
                     help='which model to use.')
 args = parser.parse_args()
 
 # load net
 net = eval(args.model)()
-load_net('./cp/temp/{}.pth'.format(args.model), net)
+load_net('./cp/{}.pth'.format(args.model), net)
 net.eval().cuda()
 
 # image and init box

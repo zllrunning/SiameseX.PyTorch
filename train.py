@@ -7,7 +7,6 @@ import math
 import numpy as np
 import argparse
 import cv2
-import sys
 import h5py
 
 import torch
@@ -101,11 +100,12 @@ def main():
     model = model.eval()
 
     criterion = nn.SoftMarginLoss(size_average=False).cuda()  # for SiamFC and SiamVGG
-    
-    optimizer = torch.optim.SGD(model.parameters(), args.lr,
-                                momentum=args.momentum,
-                                weight_decay=args.decay)
-    optimizer, lr_scheduler = build_opt_lr(model, args.start_epoch)
+    if 'SiamRPNPP' in args.model:
+        optimizer, lr_scheduler = build_opt_lr(model, args.start_epoch)
+    else:
+        optimizer = torch.optim.SGD(model.parameters(), args.lr,
+                                    momentum=args.momentum,
+                                    weight_decay=args.decay)
 
     if args.pre:
         if os.path.isfile(args.pre):
@@ -130,15 +130,16 @@ def main():
         os.makedirs('./cp/temp')
     
     for epoch in range(args.start_epoch, args.epochs):
-        
-        # adjust_learning_rate(optimizer, epoch)
+        if 'SiamRPNPP' in args.model:
+            if args.backbone_train_epoch == epoch:
+                print('start training backbone.')
+                optimizer, lr_scheduler = build_opt_lr(model, epoch)
 
-        if args.backbone_train_epoch == epoch:
-            print('start training backbone.')
-            optimizer, lr_scheduler = build_opt_lr(model, epoch)
+            lr_scheduler.step(epoch)
+            cur_lr = lr_scheduler.get_cur_lr()
+        else:
+            cur_lr = adjust_learning_rate(optimizer, epoch)
 
-        lr_scheduler.step(epoch)
-        cur_lr = lr_scheduler.get_cur_lr()
         print('current learning rate : {}'.format(cur_lr))
 
         if args.model in ['SiamFC', 'SiamVGG', 'SiamFCRes22', 'SiamFCIncep22', 'SiamFCNext22']:
@@ -378,6 +379,7 @@ def adjust_learning_rate(optimizer, epoch):
             break
     for param_group in optimizer.param_groups:
         param_group['lr'] = args.lr
+    return args.lr
 
 
 LRs = {

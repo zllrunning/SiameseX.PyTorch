@@ -31,8 +31,9 @@ A simplified PyTorch implementation of Siamese networks for tracking: **SiamFC**
 - ResNeXt22
 - ResNet50
 
-## Demo
-- Clone this repo and run
+## Demo 
+- **Try SiamFC**
+Clone this repo and run
 ```
 python demo.py --model SiamFCNext22
 ```
@@ -40,6 +41,17 @@ python demo.py --model SiamFCNext22
 You can change `--mdoel` to other models like
 ```
 python demo.py --model SiamFC
+```
+
+- **Try SiamRPN:**
+```
+python demo_rpn.py --model SiamRPNResNeXt22
+```
+
+- **Try SiamRPN++:**
+Download [the pretrained model](https://drive.google.com/open?id=1BV86AAjYMn50T1RfE8BkKkThlNZI1a-m) and put it in **./cp** folder.
+```
+python demo_rpn.py --model SiamRPNPPRes50
 ```
 
 - You'll see the following:

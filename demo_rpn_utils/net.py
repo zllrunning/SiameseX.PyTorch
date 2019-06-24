@@ -3,6 +3,7 @@
 # Licensed under The MIT License
 # Written by Qiang Wang (wangqiang2015 at ia.ac.cn)
 # --------------------------------------------------------
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from models import builder
@@ -15,13 +16,21 @@ class SiamRPN(nn.Module):
         self.tracker_name = tracker_name
         self.model = getattr(builder, tracker_name)()
 
+    def xcorr(self, z, x, channels):
+        out = []
+        kernel_size = z.data.size()[-1]
+        for i in range(x.size(0)):
+            out.append(F.conv2d(x[i, :, :, :].unsqueeze(0),
+                                z[i, :, :, :].unsqueeze(0).view(channels, self.model.features.feature_channel, kernel_size, kernel_size)))
+        return torch.cat(out, dim=0)
+
     def forward(self, detection):
         detection_feature = self.model.features(detection)
 
         conv_score = self.model.conv_cls2(detection_feature)
         conv_regression = self.model.conv_r2(detection_feature)
 
-        pred_score = self.model.xcorr(self.cls1_kernel, conv_score, 10)
+        pred_score = self.xcorr(self.cls1_kernel, conv_score, 10)
         pred_regression = self.model.regress_adjust(self.xcorr(self.r1_kernel, conv_regression, 20))
 
         return pred_regression, pred_score
@@ -35,6 +44,12 @@ class SiamRPN(nn.Module):
 class SiamRPNVGG(SiamRPN):
     def __init__(self, tracker_name):
         super(SiamRPNVGG, self).__init__(tracker_name)
+        self.cfg = {'lr': 0.45, 'window_influence': 0.44, 'penalty_k': 0.04, 'instance_size': 255, 'adaptive': False} # 0.355
+
+
+class SiamRPNResNeXt22(SiamRPN):
+    def __init__(self, tracker_name='SiamRPNResNeXt22'):
+        super(SiamRPNResNeXt22, self).__init__(tracker_name)
         self.cfg = {'lr': 0.45, 'window_influence': 0.44, 'penalty_k': 0.04, 'instance_size': 255, 'adaptive': False} # 0.355
 
 
@@ -52,7 +67,6 @@ class SiamRPNPP(nn.Module):
     def forward(self, x):
         xf = self.model.features(x)
         xf = self.model.neck(xf)
-        # print(xf[0].size())
         cls, loc = self.model.head(self.zf, xf)
         return loc, cls
 

@@ -39,7 +39,7 @@ def generate_anchor(total_stride, scales, ratios, score_size):
     return anchor
 
 
-class TrackerConfig(object):
+class TrackerConfig_SiamRPNPP(object):
     # These are the default hyper-params for DaSiamRPN 0.3827
     windowing = 'cosine'  # to penalize large displacements [cosine/uniform]
     # Params from the network architecture, have to be consistent with the training
@@ -64,6 +64,31 @@ class TrackerConfig(object):
         for k, v in cfg.items():
             setattr(self, k, v)
         # self.score_size = (self.instance_size - self.exemplar_size) / self.total_stride + 1 # for siamrpn
+
+
+class TrackerConfig(object):
+    # These are the default hyper-params for DaSiamRPN 0.3827
+    windowing = 'cosine'  # to penalize large displacements [cosine/uniform]
+    # Params from the network architecture, have to be consistent with the training
+    exemplar_size = 127  # input z size
+    instance_size = 255  # input x size (search region)
+    total_stride = 8
+    score_size = (instance_size-exemplar_size)/total_stride+1
+    context_amount = 0.5  # context amount for the exemplar
+    ratios = [0.33, 0.5, 1, 2, 3]
+    scales = [8, ]
+    anchor_num = len(ratios) * len(scales)
+    anchor = []
+    penalty_k = 0.055
+    window_influence = 0.42
+    lr = 0.295
+    # adaptive change search region #
+    adaptive = True
+
+    def update(self, cfg):
+        for k, v in cfg.items():
+            setattr(self, k, v)
+        self.score_size = (self.instance_size - self.exemplar_size) / self.total_stride + 1
 
 
 def tracker_eval(net, x_crop, target_pos, target_sz, window, scale_z, p):
@@ -116,9 +141,12 @@ def tracker_eval(net, x_crop, target_pos, target_sz, window, scale_z, p):
     return target_pos, target_sz, score[best_pscore_id]
 
 
-def SiamRPN_init(im, target_pos, target_sz, net):
+def SiamRPN_init(im, target_pos, target_sz, net, net_name):
     state = dict()
-    p = TrackerConfig()
+    if 'SiamRPNPP' in net_name:
+        p = TrackerConfig_SiamRPNPP()
+    else:
+        p = TrackerConfig()
     p.update(net.cfg)
     state['im_h'] = im.shape[0]
     state['im_w'] = im.shape[1]

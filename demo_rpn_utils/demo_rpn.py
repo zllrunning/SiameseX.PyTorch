@@ -4,20 +4,25 @@
 # Written by Qiang Wang (wangqiang2015 at ia.ac.cn)
 # --------------------------------------------------------
 #!/usr/bin/python
-
+import argparse
 import glob, cv2, torch
 import numpy as np
 from os.path import realpath, dirname, join
 
-from net import SiamRPNPPRes50
+from net import SiamRPNPPRes50, SiamRPNResNeXt22
 from run_SiamRPN import SiamRPN_init, SiamRPN_track
 from utils import get_axis_aligned_bbox, cxy_wh_2_rect, load_net
 
+
+parser = argparse.ArgumentParser(description='PyTorch SiameseX demo')
+
+parser.add_argument('--model', metavar='model', default='SiamRPNResNeXt22', type=str,
+                    help='which model to use.')
+args = parser.parse_args()
+
 # load net
-net = SiamRPNPPRes50()
-# net.load_state_dict(torch.load(join(realpath(dirname(__file__)), 'SiamRPNBIG.model')))
-# net.load_state_dict(torch.load('../cp/temp/SiamRPNPP_100.pth'))
-load_net('../cp/temp/SiamRPNPP_100.pth', net)
+net = eval(args.model)()
+load_net('../cp/temp/{}.pth'.format(args.model), net)
 net.eval().cuda()
 
 # image and init box
@@ -28,7 +33,7 @@ init_rbox = [334.02, 128.36, 438.19, 188.78, 396.39, 260.83, 292.23, 200.41]
 # tracker init
 target_pos, target_sz = np.array([cx, cy]), np.array([w, h])
 im = cv2.imread(image_files[0])  # HxWxC
-state = SiamRPN_init(im, target_pos, target_sz, net)
+state = SiamRPN_init(im, target_pos, target_sz, net, args.model)
 
 # tracking and visualization
 toc = 0

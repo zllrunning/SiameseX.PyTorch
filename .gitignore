@@ -111,4 +111,5 @@ just_for_test.py
 cp/*.pth.tar
 models/pretrained/ResNet50_PRETRAIN.model
 demo_rpn_utils/SiamRPNBIG.model
+cp/SiamRPNPPRes50.pth
 

@@ -3,11 +3,11 @@
 # Licensed under The MIT License
 # Written by Qiang Wang (wangqiang2015 at ia.ac.cn)
 # --------------------------------------------------------
+import torch
 import numpy as np
 from torch.autograd import Variable
 import torch.nn.functional as F
-
-
+from torchvision import transforms
 from utils import get_subwindow_tracking
 
 
@@ -47,7 +47,7 @@ class TrackerConfig(object):
     instance_size = 255  # input x size (search region)
     total_stride = 8
     # score_size = (instance_size-exemplar_size)/total_stride+1 # for siamrpn
-    score_size = 25 # for siamrpn++
+    score_size = 25  # for siamrpn++
     # print(score_size)
     context_amount = 0.5  # context amount for the exemplar
     ratios = [0.33, 0.5, 1, 2, 3]
@@ -67,11 +67,10 @@ class TrackerConfig(object):
 
 
 def tracker_eval(net, x_crop, target_pos, target_sz, window, scale_z, p):
-    delta, score = net(x_crop)
 
+    delta, score = net(x_crop)
     delta = delta.permute(1, 2, 3, 0).contiguous().view(4, -1).data.cpu().numpy()
     score = F.softmax(score.permute(1, 2, 3, 0).contiguous().view(2, -1), dim=0).data[1, :].cpu().numpy()
-
     delta[0, :] = delta[0, :] * p.anchor[:, 2] + p.anchor[:, 0]
     delta[1, :] = delta[1, :] * p.anchor[:, 3] + p.anchor[:, 1]
     delta[2, :] = np.exp(delta[2, :]) * p.anchor[:, 2]
@@ -100,6 +99,7 @@ def tracker_eval(net, x_crop, target_pos, target_sz, window, scale_z, p):
     # window float
     pscore = pscore * (1 - p.window_influence) + window * p.window_influence
     best_pscore_id = np.argmax(pscore)
+    # print('###################### {}'.format(best_pscore_id))
 
     target = delta[:, best_pscore_id] / scale_z
     target_sz = target_sz / scale_z
@@ -139,9 +139,14 @@ def SiamRPN_init(im, target_pos, target_sz, net):
     hc_z = target_sz[1] + p.context_amount * sum(target_sz)
     s_z = round(np.sqrt(wc_z * hc_z))
     # initialize the exemplar
-    z_crop = get_subwindow_tracking(im, target_pos, p.exemplar_size, s_z, avg_chans)
+    z_crop = get_subwindow_tracking(im, target_pos, p.exemplar_size, s_z, avg_chans, out_mode='np')
 
-    z = Variable(z_crop.unsqueeze(0))
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])])
+    z = Variable(transform(z_crop).unsqueeze(0))
+
     net.temple(z.cuda())
 
     if p.windowing == 'cosine':
@@ -176,7 +181,13 @@ def SiamRPN_track(state, im):
     s_x = s_z + 2 * pad
 
     # extract scaled crops for search region x at previous target position
-    x_crop = Variable(get_subwindow_tracking(im, target_pos, p.instance_size, round(s_x), avg_chans).unsqueeze(0))
+    x_crop = get_subwindow_tracking(im, target_pos, p.instance_size, round(s_x), avg_chans, out_mode='np')
+
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])])
+    x_crop = Variable(transform(x_crop).unsqueeze(0))
 
     target_pos, target_sz, score = tracker_eval(net, x_crop.cuda(), target_pos, target_sz * scale_z, window, scale_z, p)
     target_pos[0] = max(0, min(state['im_w'], target_pos[0]))

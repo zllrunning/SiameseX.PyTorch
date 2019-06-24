@@ -52,7 +52,7 @@ class SiamRPNPP(nn.Module):
     def forward(self, x):
         xf = self.model.features(x)
         xf = self.model.neck(xf)
-        print(xf[0].size())
+        # print(xf[0].size())
         cls, loc = self.model.head(self.zf, xf)
         return loc, cls
 

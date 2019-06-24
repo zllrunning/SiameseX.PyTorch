@@ -323,10 +323,12 @@ def trainRPNPP(model, optimizer, epoch, coco):
         z = Variable(z)
         x = x.cuda()
         x = Variable(x)
+        print(torch.max(z), torch.max(x))
 
         pred_score, pred_regression = model(z, x)
         # print(pred_score.size(), pred_regression.size())
         b, a2, h, w = pred_score.size()
+        print(torch.max(pred_regression))
 
         pred_conf = pred_score.reshape(-1, 2, 5 * h * w).permute(0, 2, 1)
 

@@ -129,7 +129,7 @@ def main():
     if not os.path.isdir('./cp/temp'):
         os.makedirs('./cp/temp')
     
-    for epoch in range(args.start_epoch, args.epochs):
+    for epoch in range(args.start_epoch, args.epochs+1):
         if 'SiamRPNPP' in args.model:
             if args.backbone_train_epoch == epoch:
                 print('start training backbone.')

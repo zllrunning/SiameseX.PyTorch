@@ -17,7 +17,8 @@ Rectangle = collections.namedtuple('Rectangle', ['x', 'y', 'width', 'height'])
 
 
 def load_net(fname, net):
-    pretrained_dict = torch.load(fname)['state_dict']
+    # pretrained_dict = torch.load(fname)['state_dict']
+    pretrained_dict = torch.load(fname)
     pretrained_dict = {'model.'+key: value for key, value in pretrained_dict.items()}
     net.load_state_dict(pretrained_dict)
 
@@ -51,11 +52,11 @@ class SiamVGGTracker(object):
         # init network
         self.siam = SiameseNet(tracker_name)
         if tracker_name == 'SiamFC':
-            pretrained = None
+            pretrained = 'cp/SiamFC.pth'
         elif tracker_name == 'SiamVGG':
             pretrained = None
         elif tracker_name == 'SiamFCRes22':
-            pretrained = 'cp/siamrescheckpoint.pth.tar'
+            pretrained = 'cp/temp/SiamFCRes22_400.pth'
         elif tracker_name == 'SiamFCIncep22':
             pretrained = None
         elif tracker_name == 'SiamFCNext22':

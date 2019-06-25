@@ -36,15 +36,17 @@ A simplified PyTorch implementation of Siamese networks for tracking: **SiamFC**
 
 Clone this repo and run
 ```
-python demo.py --model SiamFCNext22
+python demo.py --model SiamFC
 ```
 
 You can change `--mdoel` to other models like
 ```
-python demo.py --model SiamFC
+python demo.py --model SiamFCNext22
 ```
 
 - **Try SiamRPN:**
+
+Download [the pretrained model]() and put it in **./cp** folder.
 ```
 python demo_rpn.py --model SiamRPNResNeXt22
 ```

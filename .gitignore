@@ -113,4 +113,6 @@ models/pretrained/ResNet50_PRETRAIN.model
 demo_rpn_utils/SiamRPNBIG.model
 cp/SiamRPNPPRes50.pth
 cp/SiamRPNResNeXt22.pth
+.idea
+
 

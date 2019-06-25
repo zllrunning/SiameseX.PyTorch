@@ -46,7 +46,7 @@ python demo.py --model SiamFCNext22
 
 - **Try SiamRPN:**
 
-Download [the pretrained model]() and put it in **./cp** folder.
+Download [the pretrained model](https://drive.google.com/open?id=1nQUcmg8SmLq9J_cXqMW5OtxgFQjtPBDc) and put it in **./cp** folder.
 ```
 python demo_rpn.py --model SiamRPNResNeXt22
 ```
